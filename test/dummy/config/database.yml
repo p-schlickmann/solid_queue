@@ -11,7 +11,7 @@
 default: &default
   adapter: sqlite3
   pool: 50
-  retries: 100
+  timeout: 5000
 
 <% elsif ENV["TARGET_DB"] == "postgres" %>
 default: &default
