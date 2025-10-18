@@ -24,7 +24,7 @@ default: &default
   username: postgres
   pool: 20
   host: <%= ENV["PGHOST"] || "127.0.0.1" %>
-  port: 55432
+  port: <%= ENV["PGPORT"] || "55432" %>
   gssencmode: disable # https://github.com/ged/ruby-pg/issues/311
 
 <% else %>
@@ -33,7 +33,7 @@ default: &default
   username: root
   pool: 20
   host: <%= ENV["MYSQLHOST"] || "127.0.0.1" %>
-  port: 33066
+  port: <%= ENV["MYSQLPORT"] || "33066" %>
 <% end %>
 
 development:
