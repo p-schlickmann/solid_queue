@@ -38,15 +38,21 @@ jobs:
         image: mysql:8.0.31
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        ports:
+          - 33066:3306
         options: --health-cmd "mysql -h localhost -e \"select now()\"" --health-interval 2s --health-timeout 5s --health-retries 30
       postgres:
         image: postgres:15.1
         env:
           POSTGRES_HOST_AUTH_METHOD: "trust"
+        ports:
+          - 55432:5432
         options: --health-cmd="pg_isready -U postgres -h localhost" --health-interval=2s --health-timeout=5s --health-retries=30
     env:
       TARGET_DB: ${{ matrix.database }}
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
+      PGHOST: postgres
+      MYSQLHOST: mysql
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

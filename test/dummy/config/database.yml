@@ -23,8 +23,8 @@ default: &default
   encoding: unicode
   username: postgres
   pool: 20
-  host: postgres
-  port: 5432
+  host: <%= ENV["PGHOST"] || "127.0.0.1" %>
+  port: 55432
   gssencmode: disable # https://github.com/ged/ruby-pg/issues/311
 
 <% else %>
@@ -32,8 +32,8 @@ default: &default
   adapter: mysql2
   username: root
   pool: 20
-  host: mysql
-  port: 3306
+  host: <%= ENV["MYSQLHOST"] || "127.0.0.1" %>
+  port: 33066
 <% end %>
 
 development:
