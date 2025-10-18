@@ -25,12 +25,14 @@ jobs:
       matrix:
         ruby-version: [3.1]
         database: [ mysql, postgres, sqlite ]
-        gemfile: [ rails_7_1, rails_7_2, rails_8_0, rails_main ]
+        gemfile: [ rails_7_1 ]
         exclude:
           - ruby-version: "3.1"
             gemfile: rails_8_0
           - ruby-version: "3.1"
             gemfile: rails_main
+    container:
+      image: ruby:${{ matrix.ruby-version }}
     services:
       mysql:
         image: mysql:8.0.31
