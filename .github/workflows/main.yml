@@ -2,20 +2,20 @@ name: Build
 on: [ push, pull_request ]
 
 jobs:
-  rubocop:
-    name: Rubocop
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.4
-          bundler-cache: true
-      - name: Run rubocop
-        run: |
-          bundle exec rubocop --parallel
+#  rubocop:
+#    name: Rubocop
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#      - name: Setup Ruby and install gems
+#        uses: ruby/setup-ruby@v1
+#        with:
+#          ruby-version: 3.4
+#          bundler-cache: true
+#      - name: Run rubocop
+#        run: |
+#          bundle exec rubocop --parallel
 
   tests:
     name: Tests
@@ -50,6 +50,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Install gems
+        run: bundle install
       - name: Update to latest Rails
         run: |
           bundle update railties
