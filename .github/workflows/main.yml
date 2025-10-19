@@ -32,7 +32,7 @@ jobs:
           - ruby-version: "3.1"
             gemfile: rails_main
     container:
-      image: ubuntu/ruby:${{ matrix.ruby-version }}
+      image: ruby:${{ matrix.ruby-version }}
     services:
       mysql:
         image: mysql:8.0.31
@@ -54,11 +54,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@086ffb1a2090c870a3f881cc91ea83aa4243d408
-        with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
+      - name: Install gems
+        run: |
+          bundle config path vendor/bundle 
+          bundle install --jobs 4 --retry 3
       - name: Update to latest Rails
         run: |
           bundle update railties
