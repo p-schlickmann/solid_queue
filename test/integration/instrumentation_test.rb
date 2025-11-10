@@ -3,6 +3,8 @@
 require "test_helper"
 
 class InstrumentationTest < ActiveSupport::TestCase
+  self.use_transactional_tests = false
+
   test "dispatcher polling emits dispatch_scheduled event" do
     8.times { AddToBufferJob.set(wait: 1.day).perform_later("I'm scheduled") }
 
@@ -53,7 +55,7 @@ class InstrumentationTest < ActiveSupport::TestCase
   end
 
   test "stopping a worker with claimed executions emits release_claimed events" do
-    StoreResultJob.perform_later(42, pause: SolidQueue.shutdown_timeout + 100.second)
+    StoreResultJob.perform_later(42, pause: SolidQueue.shutdown_timeout + 10.seconds)
     process = nil
 
     events = subscribed(/release.*_claimed\.solid_queue/) do
@@ -88,7 +90,7 @@ class InstrumentationTest < ActiveSupport::TestCase
   end
 
   test "starting and stopping a worker emits register_process and deregister_process events" do
-    StoreResultJob.perform_later(42, pause: SolidQueue.shutdown_timeout + 100.second)
+    StoreResultJob.perform_later(42, pause: SolidQueue.shutdown_timeout + 10.seconds)
     process = nil
 
     events = subscribed(/(register|deregister)_process\.solid_queue/) do
